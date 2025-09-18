@@ -1,0 +1,52 @@
+ <aside class="side-col flex flex-col items-center gap-10 ">
+            <div class="tags-card card-style flex flex-col justify-between gap-10 items-center padding20">
+                <h3>#Popular Tags</h3>
+                <div class="tags-list">
+                    <% tags.forEach(e => {%>
+                        <button class="tags-row flex justify-between gap-10 button-style-br0">
+                            #<%= e %>
+                        </button>
+                    <%}) %>
+                </div>
+            </div>
+            <div class="comments-card card-style flex flex-col justify-between gap-15 padding20">
+                <h3 class="text-cp">recent comments</h3>
+                <div class="comments-list">
+                    <div class="comment-row flex flex-col justify-between gap-15 items-center">
+                        <% comments.forEach(e =>{ %>
+                             <div class="comment-row-info flex justify-between gap-10">
+                                <div class="image"> <img src="<%= e.image %>" alt="e.alt" class="image30px-rounded"></div>
+                                <div class="author-info flex flex-col justify-between gap-5 items-start">
+                                     <h4 class="text-cp"><%= e.name %></h4>
+                                <time class="text-cp"><%= e.time %></time>
+                                <p class="text-cp"><%= e.text %></p></div>
+                            </div>
+                           <a href="#" class="button-style-br20 text-sm ">reply</a>
+                       <% }) %>
+                    </div>
+                </div>
+            </div>
+            <div class="authors-card card-style flex flex-col justify-between gap-10 padding20">
+                <h3 class="text-cp">featured authors</h3>
+                    <% authors.forEach(e => {%>
+                        <div class="authors-list flex justify-between gap-10 items-center">
+                            <img src="<%= e.image %>" alt="<%= e.name %>" class="image30px-rounded">
+                            <div class="author-info flex flex-col justify-between gap-5">
+                                <h4 class="text-cp"><%= e.name %></h4>
+                                <h5 class="text-cp"><%= e.role %></h5>
+                              <div class="flex justify-between gap-5 items-center text-sm ">
+                                 <div class="author-articles flex flex-col justify-between gap-5 ">
+                                <p class="text-cp ">articles</p>
+                                <p class="text-cp "><%= e.articles %></p>
+                               </div>
+                               <div class="author-followers flex flex-col justify-between gap-5">
+                                <p class="text-cp ">followers</p>
+                                <p class="text-cp "><%= e.followers %></p>
+                               </div>
+                              </div>
+                            </div>
+                            <a href="#" class="arrow"><i class="fa-solid fa-chevron-right text-sm"></i></a>
+                        </div>
+                   <% }) %>
+            </div>
+        </aside>

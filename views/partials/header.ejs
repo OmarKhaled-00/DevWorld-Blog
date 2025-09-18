@@ -1,0 +1,78 @@
+<header class=" header-container animate__animated animate__fadeInDown ">
+  <div class="left-header-items ">
+    <a href="<%= mainLogo.link %>" class="flex items-center gap-5 animate__animated animate__fadeIn animate__delay-1s" id="main-logoa">
+      <h1 class="gradientTitle-text" id="main-logo"><%= mainLogo.title %></h1>
+      <div class="iconContainer-bg-gradientTitle iconDefault-color">
+        <i class="<%= mainLogo.iconClass %> fa-2x" id="main-logo-icon"></i>
+      </div>
+    </a>
+     <div class="left-header-buttons desktop-header">
+        <% headerButtons.forEach(btn => { %>
+        <a href="<%= btn.link %>" class="left-header-anchorButton">
+        <button class="<%= btn.name %> animate__animated animate__fadeIn animate__delay-1s button-style-br0 ">
+        <i class="<%= btn.iconClass %>"></i>
+          <%= btn.label %>
+          </button>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+
+  <div class="right-header-items  animate__animated animate__fadeIn animate__delay-1s">
+     <form action="/search" method="post">
+        <input type="text" class="searchEngine button-style-br10Width0  padding10  transition05" id="searchEngineId" placeholder="Search articles...">
+      </form>
+      <div class="items flex justify-between gap-15">
+        <div class="notify-items">
+            <button class="btn btn-notify button-Style-circle animate__animated animate__swing animate__infinite" id="btnHNotify">
+            <i class="fa-solid fa-bell"></i>
+            </button>
+            <div class="btn-notify-menu card-style flex flex-col justify-between gap-10 text-cp">
+            <h3 class="menu-title gradientPrimary-text border-bottom-lightCyan padding20" id="notify-title">
+              notifications
+            </h3>
+            <div class="menu-notifications flex flex-col justify-between gap-10 text-md">
+                <% notifications.forEach(e => { %>
+                  <div class="flex flex-col justify-between gap-5 border-bottom-lightCyan">
+                  <p><%= e.message %></p>
+                  <p><%= e.time %></p>
+                  </div>
+                <% }) %>
+                 <a href="#" class="view tx-cp" id="view-notify">view all notifications</a>
+              </div>
+            </div>
+          </div>
+          <div class="profile-items">
+            <button class="btn-profile button-Style-circle transition05  " id="btnHProfile">O</button>
+            <div class="profile-items-menu card-style flex flex-col justify-between gap-10  heightFit">
+              <div class="menu-title flex flex-col justify-between gap-5 border-bottom-lightCyan padding20">
+                  <h3><%= userProfile.username %></h3>
+                  <small><%= userProfile.email %></small>
+              </div>
+              <div class="menu-items flex flex-col justify-between gap-10 padding20">
+              <% userProfileButtons.forEach(e =>{ %>
+                <a href="<%= e.link %>" class="userProfileBtn flex button-style-br0 border-bottom-lightCyan transition05">
+                   <i class="<%= e.iconClass %> padding-right10"></i>
+                  <%= e.label %>
+                </a>
+              <% }) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</header>
+
+<div class="mobile-footer">
+  <div class="left-header-buttons mobile-footer-container">
+        <% headerButtons.forEach(btn => { %>
+        <a href="<%= btn.link %>" class="left-header-anchorButton">
+        <button class="<%= btn.name %> btnFoot animate__animated animate__fadeIn animate__delay-1s button-style-br0 ">
+        <i class="<%= btn.iconClass %>"></i>
+          <%= btn.label %>
+          </button>
+        </a>
+      <% }) %>
+    </div>
+  </div>

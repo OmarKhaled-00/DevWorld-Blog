@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevWorld Blog</title>
+    <!-- Main Template Css File -->
+    <link rel="stylesheet" href="/styles/login.css">
+    <!-- Footer css File -->
+     <link rel="stylesheet" href="/styles/footer.css">
+    <!-- Font Awesome Icons Library -->
+    <link rel="stylesheet" href="/styles/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+    <div class="header">
+           <a href="#"> <h1 class="gradientTitle-text">DevWorld Blog
+                <div class="icon-bg-style logo"><i class="fa-solid fa-crown icon-color"></i></div>
+            </h1></a>
+            <button class=" login-bt buttonStyle padding10">Login</button>
+        </div>
+    <div class="container">
+        <div class="content">
+            <div class="tx-center">
+                <h1>Welcome to the Future of</h1>
+                <h1 class="gradientTitle-text margin10-bottom">Developer Blogging</h1>
+                <p class="gradientSecondary-text">Join thousands of developers sharing knowledge, building connections, and growing together</p>
+            </div>
+            <div class="discribtion">
+               <div class="feature box1 card-style padding10">
+                 <h2 class="normal-tx"><i class="fa-solid fa-book-open-reader success margin10-right"></i>share your knowledge</h2>
+                <p class="tx-fontSize12 subHeader-color">Write and publish your own blog posts about software and technology</p>
+               </div>
+               <div class="feature box2 card-style padding10">
+                 <h2 class="normal-tx"><i class="fa-solid fa-users success margin10-right"></i>connect with developer</h2>
+                <p class="tx-fontSize12 subHeader-color">Read, comment, and interact with a global community of coders</p>
+               </div>
+               <div class="feature box3 card-style padding10">
+                 <h2 class="normal-tx"><i class="fa-solid fa-arrow-up-right-dots success margin10-right"></i>learn and grow</h2>
+                <p class="tx-fontSize12 subHeader-color">Access tutorials, tips, and insights to improve your programming skills</p>
+               </div>
+            </div>
+           
+        </div>
+         <!-- Square shown by default -->
+      <%- include("partials/square.ejs") %>
+
+    <!-- Login hidden by default -->
+      <%- include("partials/login.ejs") %>
+      <% if (typeof error !== "undefined") { %>
+  <script>
+    alert("<%= error %>");
+  </script>
+  <% } %>
+  </div>
+            
+    </div>
+               <h2 class="special-heading main-head">Services</h2>
+            <div class="services section-layout" id="services">
+        <div class="container">
+            <div class="box card-style">
+                <i class="fa-solid fa-blog fa-4x"></i>
+                <h3 class="gradientSecondary-text">Blog Publishing</h3>
+                <div class="info">
+                </div>
+            </div>
+            <div class="box card-style">
+                <i class="fa-solid fa-users fa-4x"></i>
+                <h3 class="gradientSecondary-text">Developer Community</h3>
+                <div class="info">
+                </div>
+            </div>
+            <div class="box card-style">
+                <i class="fa-solid fa-database fa-4x"></i>
+                <h3 class="gradientSecondary-text">Learning Resources</h3>
+                <div class="info">
+                </div>
+            </div>
+            <div class="box card-style">
+                <i class="fas fa-laptop-code fa-4x"></i>
+                <h3 class="gradientSecondary-text">Code Snippets Sharing</h3>
+                <div class="info">
+                </div>
+            </div>
+            <div class="box card-style">
+                <i class="fa-brands fa-searchengin fa-4x"></i>
+                <h3 class="gradientSecondary-text">Search & Categories</h3>
+                <div class="info">
+                </div>
+            </div>
+            <div class="box card-style">
+                <i class="fa-solid fa-address-card fa-4x"></i>
+                <h3 class="gradientSecondary-text">Author Profiles</h3>
+                <div class="info">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <!-- Footer Section -->
+    <%- include("partials/footer.ejs") %>
+
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+     $(".login-bt").on("click", function(){
+        $(".container .content").css ({
+            "flex-basis" : "70%"
+        });
+        $(".container").css({
+            "gap":"30px"
+        });
+       $("#square-container").fadeOut( function () {
+        $("#login-container").fadeIn("slow");
+      });
+      });
+  </script>
+</body>
+</html>

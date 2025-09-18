@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevWorld Blog</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!-- Helper css File -->
+    <link rel="stylesheet" href="/styles/helper.css">
+    <!-- Header css File -->
+     <link rel="stylesheet" href="/styles/header.css">
+     <!-- Font Awesome Icons Library -->
+    <link rel="stylesheet" href="styles/all.min.css">
+    <!-- Footer css File -->
+     <link rel="stylesheet" href="/styles/footer.css">
+    <!-- Main Template Css File -->
+    <link rel="stylesheet" href="styles/home.css">
+</head>
+<body>
+    <%- include("header.ejs") %>
+        <button id="sidebar-toggleButton" class="sidebar-toggleButton card-style">
+           <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="mobile-sidebar">
+            <%- include("sidebar.ejs") %>
+        </div>
+    <main class="home-container grid-content-sidebar gridGap-10 animate__animated animate__fadeInDown">
+            <section class="main-col flex flex-col justify-between gap-10">
+                    <article class=" card trend-card card-style flex flex-col justify-between gap-10 padding20">
+                    <div class=" trend-top flex justify-between gap-10 items-center" role="the top of the trend post">
+                        <h5 class="text-cp">technology</h5>
+                        <div class="flex justify-between gap-10 items-center" role="trend post icons ">
+                            <button class=" button-style-br20 card-icons" id="bookmark"><i class="fa-solid fa-bookmark icon-style"></i></button>
+                            <button class=" button-style-br20 card-icons " id="share"><i class="fa-solid fa-share icon-style"></i></button>
+                        </div>
+                    </div>
+                    <div class="trend-center" role="the center of the trend post">
+                        <div class="trend-mainTitle flex flex-col justify-between gap-10" role="trend main title">
+                            <h1 class="trend-title text-cp">the future of web development: trends to watch in 2025</h1>
+                            <p class="trend-subTitle text-cp">explore the cutting-edge technologies and methodologies that will shape the web development in the coming year , from AI integeration to sustainable coding practices .</p>
+                        </div>
+                    </div>
+                    <div class="trend-bottom flex  " role="bottom of trend post">
+                       <div class="trend-user-info flex justify-between gap-10">
+                         <img src="/images/alex chen.jpeg" alt="alex chen" class="image30px-rounded">
+                        <div class="meta" role="meta">
+                            <div class="meta-name text-cp" role="name">alex chen</div>
+                            <div class="meta-date text-cp" role="date">jan 8, 2025</div>
+                        </div>
+                        <div class="meta-time text-cp gradientPrimary-text" role="time">15min</div>
+                       </div>
+                    </div>
+                </article>
+                
+
+                <section>
+                    <div class="section-mainTitle card-style" role="section title">articles</div>
+                </section>
+
+                <article>
+                    <div class="post-container" role="container of the post">
+                        <% post.forEach(e=> { %>
+                        <div class="card post-box card-style flex flex-col justify-between gap-10" role="post box">
+                            <div class="post-image flex justify-between items-start padding10" style="--bg-image: url('<%= e.backgroundImage %>')">
+                                <h5 class="text-cp"><%= e.tag %></h4>
+                                <div class="post-box-icons flex justify-between gap-10 items-center" role="post icons">
+                                     <button class="button-style-br20 card-icons" id="bookmark"><i class="fa-solid fa-bookmark  icon-style "></i></button>
+                                     <button class="button-style-br20 card-icons" id="share"><i class="fa-solid fa-share  icon-style"></i></button>
+                                </div>
+                            </div>
+                            <div class="post-box-title flex flex-col justify-between gap-10 padding10" role="post title">
+                                <h4 class="text-cp headTitle"><%= e.title %></h4>
+                                <p class="text-cp subTitle" ><%= e.subTitle %></p>
+                            </div>
+                            <div class="post-box-info flex justify-between gap-10 padding10">
+                                <div class="user-info flex justify-between gap-5" role="user information">
+                                    <img src="<%= e.author.photo %>" alt="<%= e.name %>" class="image30px-rounded">
+                                   <div class="user-profile-info" role="user profile information name and position">
+                                     <h6 class="text-cp font-light"><%= e.author.name %></h6>
+                                    <span class="text-cp font-light" role="date"><%= e.date %></span>
+                                   </div>
+                                </div>
+                                <div class="user-data flex justify-between items-center gap-10">
+                                    <span class="text-cp time" role="time"><%= e.time %></span>
+                                    <div class="user-viewers text-cp flex justify-between gap-5">
+                                        <i class="fa-solid fa-eye"></i>
+                                        <span class="text-cp" role="num"><%= e.viewers %></span>
+                                    </div>
+                                     <div class="user-likes flex justify-between gap-5">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span class="text-cp" role="num"><%= e.viewers %></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                      <% }) %>
+                    </div>
+                </article>
+            </section>
+           <div class="desktop-sidebar">
+            <%- include("sidebar.ejs") %>
+           </div>
+    </main>
+    <%- include("footer.ejs") %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/script.js"></script>
+</body>
+</html>
