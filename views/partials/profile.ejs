@@ -14,8 +14,10 @@
      <link rel="stylesheet" href="/styles/header.css">
          <!-- Font Awesome Icons Library -->
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <!-- Main Template Css File -->
+    <!-- home Css File -->
     <link rel="stylesheet" href="styles/home.css">
+    <!-- Main Template Css File -->
+    <link rel="stylesheet" href="styles/profile.css">
    
 </head>
 <body>
@@ -25,12 +27,20 @@
         </button>
     <main class="home-container grid-content-sidebar gridGap-10 animate__animated animate__fadeInDown">
         <section class="main-col flex flex-col justify-between gap-10">
-            <article class="profile-box card-style">
+            <article class="profile-box card-style flex flex-col justify-between gap-10 padding10">
+                <div id="uploadSection"class="upload-container flex flex-col items-center " style="background-image: url('<%= currentUser.image %>');">
+                 <form action="/upload" method="post" enctype="multipart/form-data">
+                    <label for="profilePhoto" class="upload-label"> <i class="fa-solid fa-camera"></i></label>
+                    <input type="file"id="profilePhoto"name="profilePhoto" accept="image/*">
+                    <button type="submit" class="upload-btn"><i class="fa-solid fa-check"></i></button>
+                </form>
+               </div>
+               <div>
                 
+               </div>
             </article>
         </section>
     </main>
-      <%- include("footer.ejs") %>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/script.js"></script>
 </body>

@@ -43,11 +43,11 @@
             </div>
           </div>
           <div class="profile-items">
-            <button class="btn-profile button-Style-circle transition05  " id="btnHProfile">O</button>
+            <button class="btn-profile button-Style-circle transition05  " id="btnHProfile"><%= currentUser.name[0] %></button>
             <div class="profile-items-menu card-style flex flex-col justify-between gap-10  heightFit">
               <div class="menu-title flex flex-col justify-between gap-5 border-bottom-lightCyan padding20">
-                  <h3><%= userProfile.username %></h3>
-                  <small><%= userProfile.email %></small>
+                  <h3><%= currentUser.name %></h3>
+                  <small><%= currentUser.username %></small>
               </div>
               <div class="menu-items flex flex-col justify-between gap-10 padding20">
               <% userProfileButtons.forEach(e =>{ %>

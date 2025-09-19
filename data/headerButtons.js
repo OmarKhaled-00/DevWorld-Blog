@@ -3,7 +3,7 @@ const headerButtons = [
     name: "home",
     label: "Home",
     iconClass: "fa-solid fa-house",
-    link: "/",
+    link: "/home",
   },
   {
     name: "search",

@@ -1,9 +1,19 @@
+import { name } from "ejs";
 import { link } from "fs";
+
+const defaultUserProfile = {
+  name: "Guest User",
+  email: "guest@example.com",
+  username: "@guest",
+  image: "/images/no-image.jpg", // <-- default image
+};
 
 const userProfile = [
   {
-    Name: "Omar Khaled",
+    name: "Omar Khaled",
     username: "@omarKhaled",
+    password: "123",
+    image: "",
     location: "Cairo, Egypt",
     joined: "March 2021",
     bio: "Embedded systems engineer specializing in microcontrollers and IoT projects. Passionate about technology, programming, and continuous learning.",
@@ -96,6 +106,8 @@ const userProfile = [
   {
     name: "John Doe",
     username: "@johndoe",
+    password: "124",
+    image: "/images/formal-man2.jpg",
     location: "New York, NY",
     joined: "January 2020",
     bio: "Tech enthusiast and writer sharing insights on software development and startups.",
@@ -112,6 +124,8 @@ const userProfile = [
   {
     name: "Mike Johnson",
     username: "@mikejohnson",
+    password: "125",
+    image: "/images/formal-man3.jpg",
     location: "Los Angeles, CA",
     joined: "June 2019",
     bio: "Full-stack developer and open-source contributor.",
@@ -128,6 +142,8 @@ const userProfile = [
   {
     name: "Jane Smith",
     username: "@janesmith",
+    password: "126",
+    image: "/images/formal-woman2.jpeg",
     location: "London, UK",
     joined: "March 2021",
     bio: "UI/UX designer passionate about creating user-friendly digital products.",
@@ -144,6 +160,8 @@ const userProfile = [
   {
     name: "Alex Chen",
     username: "@alexchen",
+    password: "127",
+    image: "/images/alex chen.jpeg",
     location: "San Francisco, CA",
     joined: "July 2020",
     bio: "Software engineer focused on AI and machine learning.",
@@ -160,6 +178,8 @@ const userProfile = [
   {
     name: "Maria Rodriguez",
     username: "@mariarodriguez",
+    password: "128",
+    image: "/images/formal-woman3.jpg",
     location: "Madrid, Spain",
     joined: "May 2018",
     bio: "Content creator and digital marketing expert.",
@@ -176,6 +196,8 @@ const userProfile = [
   {
     name: "Mark John",
     username: "@markjohn",
+    password: "129",
+    image: "/images/formal-man2.jpg",
     location: "Toronto, Canada",
     joined: "August 2019",
     bio: "Entrepreneur and startup advisor.",
@@ -192,6 +214,8 @@ const userProfile = [
   {
     name: "Michael Brown",
     username: "@michaelbrown",
+    password: "1210",
+    image: "/images/formal-man.jpg",
     location: "Chicago, IL",
     joined: "February 2020",
     bio: "Software architect and cloud computing specialist.",
@@ -208,6 +232,8 @@ const userProfile = [
   {
     name: "Sophie Turner",
     username: "@sophieturner",
+    password: "1211",
+    image: "/images/formal-woman.jpeg",
     location: "Paris, France",
     joined: "January 2021",
     bio: "Creative director and visual storyteller.",
@@ -224,6 +250,8 @@ const userProfile = [
   {
     name: "James Wilson",
     username: "@jameswilson",
+    password: "1212",
+    image: "/images/jameswilson.jpg",
     location: "Sydney, Australia",
     joined: "March 2019",
     bio: "Front-end developer and UI enthusiast.",
@@ -240,6 +268,8 @@ const userProfile = [
   {
     name: "Sarah Lee",
     username: "@sarahlee",
+    password: "1212",
+    image: "/images/formal-woman2.jpeg",
     location: "Singapore",
     joined: "May 2020",
     bio: "Digital strategist and content marketer.",
@@ -256,6 +286,8 @@ const userProfile = [
   {
     name: "Daniel Smith",
     username: "@danielsmith",
+    password: "1213",
+    image: "/images/formal-man2.jpg",
     location: "Berlin, Germany",
     joined: "July 2018",
     bio: "Backend developer and API specialist.",
@@ -272,6 +304,8 @@ const userProfile = [
   {
     name: "Emma Watson",
     username: "@emmawatson",
+    password: "1214",
+    image: "/images/formal-woman3.jpg",
     location: "London, UK",
     joined: "October 2019",
     bio: "Actress and activist sharing insights on technology and education.",
@@ -299,7 +333,8 @@ const userProfileButtons = [
     name: "log out",
     iconClass: "fa-solid fa-arrow-right-from-bracket",
     label: "Log Out",
+    link: "/",
   },
 ];
 
-export { userProfile, userProfileButtons };
+export { userProfile, userProfileButtons, defaultUserProfile };

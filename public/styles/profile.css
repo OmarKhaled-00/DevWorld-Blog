@@ -1,0 +1,55 @@
+.upload-container {
+    border: 4px solid black;
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-size: cover;
+}
+.no-photo {
+  background-image: url("/images/no-image.jpg");
+}
+.has-photo {
+  background-image: url("/uploads/<%= uploadedPhoto %>");
+}
+#profilePhoto {
+    display: none;
+}
+
+.upload-label {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.upload-label i {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.upload-label:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+.upload-label:hover i {
+  opacity: 1;
+}
+.upload-btn {
+    position: absolute;
+    bottom: -15px;
+    right: -30px;
+    background: #4CAF50;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}

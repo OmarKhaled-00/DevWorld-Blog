@@ -1,4 +1,25 @@
 $(document).ready(function () {
+  // Preview immediately
+  $("#profilePhoto").on("change", function (event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        $(".upload-container").css(
+          "background-image",
+          `url(${e.target.result})`
+        );
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // After upload (replace with saved file)
+  const params = new URLSearchParams(window.location.search);
+  if (params.has("uploaded")) {
+    const filename = params.get("uploaded");
+    $(".upload-container").css("background-image", `url(/uploads/${filename})`);
+  }
   $(".home").addClass("active-button");
   $(".btn-notify").on("click", function () {
     $(".btn-notify-menu").show();
@@ -205,25 +226,3 @@ $(".tags-row").on("click", function () {
     }
   });
 });
-
-// function moveSidebar() {
-//   const $sidebar = $("#sidebar-source").children("aside").first(); // sidebar from sidebar.ejs
-
-//   if ($sidebar.length === 0) return; // no sidebar to move
-
-//   if ($(window).width() <= 768) {
-//     // Mobile screen
-//     $("#desktop-wrapper").empty(); // clear desktop wrapper
-//     $("#mobile-wrapper").append($sidebar);
-//   } else {
-//     // Desktop screen
-//     $("#mobile-wrapper").empty(); // clear mobile wrapper
-//     $("#desktop-wrapper").append($sidebar);
-//   }
-// }
-
-// // Run on page load
-// moveSidebar();
-
-// // Run on resize
-// $(window).on("resize", moveSidebar);
