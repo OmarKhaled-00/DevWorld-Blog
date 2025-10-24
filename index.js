@@ -146,3 +146,4 @@ app.listen(port, () => {
     `Server is running on port : ${port}, Click Link: http://localhost:${port}`
   );
 });
+app.get("/healthz", (req, res) => res.status(200).send("OK"));
