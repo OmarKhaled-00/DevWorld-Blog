@@ -28,7 +28,7 @@
             <section class="main-col flex flex-col justify-between gap-10">
                     <article class=" card trend-card card-style flex flex-col justify-between gap-10 padding20">
                     <div class=" trend-top flex justify-between gap-10 items-center" role="the top of the trend post">
-                        <h5 class="text-cp">technology</h5>
+                        <h5 class="text-cp"><%= trendPost.category %></h5>
                         <div class="flex justify-between gap-10 items-center" role="trend post icons ">
                             <button class=" button-style-br20 card-icons" id="bookmark"><i class="fa-solid fa-bookmark icon-style"></i></button>
                             <button class=" button-style-br20 card-icons " id="share"><i class="fa-solid fa-share icon-style"></i></button>
@@ -36,33 +36,30 @@
                     </div>
                     <div class="trend-center" role="the center of the trend post">
                         <div class="trend-mainTitle flex flex-col justify-between gap-10" role="trend main title">
-                            <h1 class="trend-title text-cp">the future of web development: trends to watch in 2025</h1>
-                            <p class="trend-subTitle text-cp">explore the cutting-edge technologies and methodologies that will shape the web development in the coming year , from AI integeration to sustainable coding practices .</p>
+                            <h1 class="trend-title text-cp"><%= trendPost.title %></h1>
+                            <p class="trend-subTitle text-cp"><%= trendPost.summary %></p>
                         </div>
                     </div>
                     <div class="trend-bottom flex  " role="bottom of trend post">
                        <div class="trend-user-info flex justify-between gap-10">
-                         <img src="/images/alex chen.jpeg" alt="alex chen" class="image30px-rounded">
+                         <img src=<%= trendPost.authorImage %> alt=<%= trendPost.authorName %>  class="image30px-rounded">
                         <div class="meta" role="meta">
-                            <div class="meta-name text-cp" role="name">alex chen</div>
-                            <div class="meta-date text-cp" role="date">jan 8, 2025</div>
+                            <div class="meta-name text-cp" role="name"><%= trendPost.authorName %></div>
+                            <div class="meta-date text-cp" role="date"><%= trendPost.date %></div>
                         </div>
-                        <div class="meta-time text-cp gradientPrimary-text" role="time">15min</div>
+                        <div class="meta-time  gradientPrimary-text" role="time"><%= trendPost.readTime %> min</div>
                        </div>
                     </div>
                 </article>
-                
-
-                <section>
+                 <section>
                     <div class="section-mainTitle card-style" role="section title">articles</div>
                 </section>
-
-                <article>
+                 <article>
                     <div class="post-container" role="container of the post">
-                        <% post.forEach(e=> { %>
-                        <div class="card post-box card-style flex flex-col justify-between gap-10" role="post box">
-                            <div class="post-image flex justify-between items-start padding10" style="--bg-image: url('<%= e.backgroundImage %>')">
-                                <h5 class="text-cp"><%= e.tag %></h4>
+                        <% posts.forEach(e=> { %>
+                        <div class="card post-box card-style flex flex-col justify-between gap-5" role="post box">
+                            <div class="post-image flex justify-between items-start padding10" style="--bg-image: url('<%= e.image %>')">
+                                <h5 class="text-cp"><%= e.category %></h4>
                                 <div class="post-box-icons flex justify-between gap-10 items-center" role="post icons">
                                      <button class="button-style-br20 card-icons" id="bookmark"><i class="fa-solid fa-bookmark  icon-style "></i></button>
                                      <button class="button-style-br20 card-icons" id="share"><i class="fa-solid fa-share  icon-style"></i></button>
@@ -70,34 +67,36 @@
                             </div>
                             <div class="post-box-title flex flex-col justify-between gap-10 padding10" role="post title">
                                 <h4 class="text-cp headTitle"><%= e.title %></h4>
-                                <p class="text-cp subTitle" ><%= e.subTitle %></p>
+                                <p class="text-cp subTitle" ><%= e.summary %></p>
                             </div>
                             <div class="post-box-info flex justify-between gap-10 padding10">
                                 <div class="user-info flex justify-between gap-5" role="user information">
-                                    <img src="<%= e.author.photo %>" alt="<%= e.name %>" class="image30px-rounded">
+                                    <img src="<%= e.authorImage %>" alt="<%= e.authorName %>" class="image30px-rounded">
                                    <div class="user-profile-info" role="user profile information name and position">
-                                     <h6 class="text-cp font-light"><%= e.author.name %></h6>
+                                     <h6 class="text-cp font-light"><%= e.authorName %></h6>
                                     <span class="text-cp font-light" role="date"><%= e.date %></span>
                                    </div>
                                 </div>
                                 <div class="user-data flex justify-between items-center gap-10">
-                                    <span class="text-cp time" role="time"><%= e.time %></span>
+                                   <span class=" time" role="time"><%= e.time %></span>
                                     <div class="user-viewers text-cp flex justify-between gap-5">
                                         <i class="fa-solid fa-eye"></i>
-                                        <span class="text-cp" role="num"><%= e.viewers %></span>
+                                        <span class="text-cp" role="num"><%= e.views %></span>
                                     </div>
                                      <div class="user-likes flex justify-between gap-5">
                                         <i class="fa-solid fa-heart"></i>
-                                        <span class="text-cp" role="num"><%= e.viewers %></span>
+                                        <span class="text-cp" role="num"><%= e.views %></span>
                                     </div>
                                 </div>
                             </div>
+                          <div class="view padding10"><a href="#" class=" button-style-br20 text-sm">view post</a></div>
                         </div>
                       <% }) %>
                     </div>
                 </article>
-            </section>
-           <div class="desktop-sidebar">
+           
+           </section>
+                    <div class="desktop-sidebar">
             <%- include("sidebar.ejs") %>
            </div>
     </main>

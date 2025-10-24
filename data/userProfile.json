@@ -1,0 +1,349 @@
+[
+  {
+    "id": 1,
+    "name": "omar khaled",
+    "username": "@omarkhaled",
+    "password": "123",
+    "image": "/images/omar.jpeg",
+    "location": "cairo,egypt",
+    "joined": "september 2025",
+    "role": "embedded systems expert , junior full stack web developer",
+    "bio": "motivated Frontend Developer with a solid foundation in HTML, CSS, Bootstrap, and computer science principles. Experienced in building responsive, user-friendly interfaces and translating design concepts into functional web pages. Skilled in C and C++ programming and recognized as an expert in embedded systems design, IoT applications, and automation solutions. Successfully led a multidisciplinary team on innovative projects, including a Smart Hospital System, showcasing adaptability, technical precision, and leadership. Dedicated to applying both frontend development expertise and deep engineering knowledge to create engaging, efficient, and high-quality applications.",
+    "publishedArticles": [
+      {
+        "title": "the Future of Web Development: Trends to Watch in 2025",
+        "category": "technology",
+        "articleImage": "/images/trend.jpeg",
+        "createdAt":"2025-09-20T15:30:00Z",
+        "date": "sep 2025",
+        "summary": "explore the cutting-edge technologies and methodologies that will shape the web development in the coming year , from AI integeration to sustainable coding practices",
+        "topic": "in 2025, web development is being reshaped by AI-powered coding tools, low-code platforms, and headless/API-first architectures that make building faster, smarter, and more scalable. Progressive Web Apps and responsive design continue to push the web toward app-like, mobile-first experiences, while WebAssembly boosts browser performance for heavy applications. At the same time, trends like Web3, voice interfaces, sustainability, and “green” coding are gaining momentum, reflecting both new user expectations and global priorities. Developers must balance innovation with challenges such as rising complexity, performance trade-offs, privacy laws, and security risks, making adaptability and continuous learning the key to thriving in the future of web development.",
+        "readTime": 10,
+        "views": 100,
+        "likes": 100,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "john doe",
+            "authorUserName": "@johndoe",
+            "commentDate": "2025-09-20T13:20:00Z",
+            "text": "Great article! The examples really..."
+          },
+          {
+            "id": 2,
+            "authorName": "emma watson",
+            "authorUserName": "@emmawatson",
+            "commentDate": "2025-09-20T14:20:00Z",
+            "text": "I've been looking for this kind of..."
+          }
+        ]
+      },
+      {
+        "title": "mastering typeScript: advanced types and patterns",
+        "category": "typescript",
+        "articleImage": "/images/typeScribt.jpg",
+        "createdAt":"2025-09-20T18:30:00Z",
+        "date": "sep 2025",
+        "summary": "deep dive into typeScript's advanced type system.",
+        "topic": "typeScript’s power lies in its type system, which goes far beyond simple annotations to enable expressive, safe, and scalable code. Advanced types such as mapped types, conditional types, and utility types allow you to transform and infer new types dynamically, making your code more flexible. Discriminated unions and exhaustiveness checking provide strong guarantees in complex control flows, while intersection and union types let you compose sophisticated models. Patterns like type narrowing, infer keyword usage, and branded types help enforce domain-specific constraints, and declaration merging offers elegant ways to extend libraries or frameworks. Combined with generics and higher-order types, these features enable reusable abstractions that maintain strict type safety. Mastering these advanced types and patterns allows developers to model real-world problems more accurately, reduce runtime errors, and build robust, maintainable applications that scale confidently.",
+        "readTime": 0,
+        "views": 0,
+        "likes": 0,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "john doe",
+            "authorUserName": "@johndoe",
+            "commentDate": "2025-09-20T13:20:00Z",
+            "text": "Great article! The examples really..."
+          },
+          {
+            "id": 2,
+            "authorName": "emma watson",
+            "authorUserName": "@emmawatson",
+            "commentDate": "2025-09-20T14:20:00Z",
+            "text": "I've been looking for this kind of..."
+          }
+        ]
+      },
+      {
+        "title": "The art of minimalist web design",
+        "category": "web design",
+        "articleImage": "/images/WebDesign.jpg",
+        "createdAt":"2025-09-20T18:30:00Z",
+        "date": "sep 2025",
+        "summary": "explore the principles of minimalist and how to create it.",
+        "topic": "minimalist web design focuses on clarity, functionality, and user experience by removing unnecessary elements and highlighting only what truly matters. It embraces simplicity in layout, typography, and color palettes, often relying on whitespace to create balance and guide attention to key content. Instead of cluttered visuals, minimalism emphasizes clean navigation, strong hierarchy, and intuitive interactions, ensuring that users can quickly find what they need without distraction. This approach not only improves readability and accessibility but also enhances performance by reducing page weight and load times. At its core, minimalist design is about creating elegance through restraint—delivering a seamless, purposeful experience where every element serves a clear function.",
+        "readTime": 0,
+        "views": 0,
+        "likes": 0,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "john doe",
+            "authorUserName": "@johndoe",
+            "commentDate": "2025-09-20T13:20:00Z",
+            "text": "Great article! The examples really..."
+          },
+          {
+            "id": 2,
+            "authorName": "emma watson",
+             "authorUserName": "@emmawatson",
+            "commentDate": "2025-09-20T14:20:00Z",
+            "text": "I've been looking for this kind of..."
+          }
+        ]
+      }
+    ],
+    "notifications" : [
+      {
+      "id": 1,
+      "type": "like",
+      "from": "@johndoe",
+      "postTitle": "The Future of Web Development",
+      "time": "2025-09-22T14:20:00Z",
+      "read": false
+    },
+    {
+      "id": 2,
+      "type": "like",
+      "from": "@johndoe",
+      "postTitle": "The art of minimalist web design",
+      "time": "2025-09-22T14:20:00Z",
+      "read": false
+    },
+     {
+      "id": 3,
+      "type": "like",
+      "from": "@johndoe",
+      "postTitle": "mastering typeScript: advanced types and patterns",
+      "time": "2025-09-22T14:20:00Z",
+      "read": false
+    },
+    {
+      "id": 4,
+      "type": "like",
+      "from": "@emmawatson",
+      "postTitle": "The Future of Web Development",
+      "time": "2025-09-22T15:20:00Z",
+      "read": false
+    },
+    {
+      "id": 5,
+      "type": "like",
+      "from": "@emmawatson",
+      "postTitle": "The art of minimalist web design",
+      "time": "2025-09-22T15:20:00Z",
+      "read": false
+    },
+     {
+      "id": 6,
+      "type": "like",
+      "from": "@emmawatson",
+      "postTitle": "mastering typeScript: advanced types and patterns",
+      "time": "2025-09-22T15:20:00Z",
+      "read": false
+    }
+    
+  ],
+    "followers": ["@johndoe", "@emmawatson"],
+    "following": ["@johndoe", "@emmawatson"],
+    "social": {
+      "twitter": "https://twitter.com/omarKhaled",
+      "linkedin": "https://linkedin.com/in/omarKhaled",
+      "website": "https://omarkhaled.com"
+    }
+  },
+  {
+    "id": 2,
+    "name": "john doe",
+    "username": "@johndoe",
+    "password": "124",
+    "image": "/images/formal-man.jpeg",
+    "location": "new York, nY",
+    "joined": "january 2020",
+    "role": "frontend engineer",
+    "bio": "tech enthusiast and writer sharing insights on software development and startups.",
+    "publishedArticles": [
+      {
+        "title": "building a successful remote team culture",
+        "category": "team members",
+        "articleImage": "/images/workPlace culture.png",
+        "createdAt":"2025-07-21T15:30:00Z",
+        "date": "jul 2025",
+        "summary": "Learn strategies for creating a strong team culture.",
+        "topic": "Creating a thriving remote team culture requires more than just digital tools—it’s about fostering trust, communication, and shared purpose across distance. Clear expectations and transparent workflows give everyone structure, while regular check-ins and open feedback channels keep collaboration strong. A culture of trust and autonomy empowers team members to manage their time effectively, and celebrating wins—big or small—helps maintain motivation. Beyond work, virtual coffee chats, team rituals, and cultural activities build human connections that replicate the camaraderie of an office. Finally, prioritizing inclusivity, flexibility, and well-being ensures that every voice is heard and respected, creating an environment where remote employees feel both valued and connected to the bigger mission.",
+        "readTime": 0,
+        "views": 0,
+        "likes": 1,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "omar khaled",
+            "authorUserName": "@omarkhaled",
+            "commentDate": "2025-07-22T14:20:00Z",
+            "text": "Insightfull Post!"
+          }
+        ]
+      },
+      {
+        "title": "react performance optimization: best practices",
+        "category": "react js",
+        "articleImage": "/images/react.png",
+        "createdAt":"2025-07-21T15:30:00Z",
+        "date": "jul 2025",
+        "summary": "learn how to use memoization, lazy loading, and suspense to make your apps faster.",
+        "topic": "Optimizing performance in React means reducing unnecessary renders, minimizing bundle size, and keeping UI updates efficient. Key practices include using React.memo, useMemo, and useCallback to prevent expensive recalculations or re-renders, and leveraging key props correctly to avoid reconciliation issues. Splitting code with dynamic imports and tools like React.lazy ensures users only download what they need, while tree-shaking and bundle analyzers help trim unused code. Virtualization libraries (e.g., react-window, react-virtualized) are essential for rendering large lists efficiently. You can also improve perceived performance with suspense, concurrent features, and skeleton loading states. Beyond the frontend, optimizing API calls with caching, debouncing, and pagination reduces unnecessary work. Finally, always profile with React DevTools and browser performance tools to identify real bottlenecks before optimizing.",
+        "readTime": 0,
+        "views": 0,
+        "likes": 1,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "omar khaled",
+            "authorUserName": "@omarkhaled",
+            "commentDate": "2025-07-22T14:20:00Z",
+            "text": "Insightfull Post!"
+          }
+        ]
+      }
+    ],
+     "notifications" : [
+      {
+      "id": 1,
+      "type": "like",
+      "from": "@omarkhaled",
+      "postTitle": "building a successful remote team culture",
+      "time": "2025-07-22T13:20:00Z",
+      "read": false
+    },
+    {
+      "id": 2,
+      "type": "like",
+      "from": "@omarkhaled",
+      "postTitle": "react performance optimization: best practices",
+      "time": "2025-07-22T13:20:00Z",
+      "read": false
+    },
+    {
+      "id": 3,
+      "type": "comment",
+      "from": "@omarkhaled",
+      "postTitle": "react performance optimization: best practices",
+      "time": "2025-07-22T14:20:00Z",
+      "read": false
+    },
+    {
+      "id": 4,
+      "type": "comment",
+      "from": "@omarkhaled",
+      "postTitle": "react performance optimization: best practices",
+      "time": "2025-07-22T14:20:00Z",
+      "read": false
+    }
+  ],
+    "followers": ["@omarkhaled"],
+    "following": ["@omarkhaled"],
+    "social": {
+      "twitter": "",
+      "linkedin": "",
+      "website": ""
+    }
+  },
+  {
+    "id": 3,
+    "name": "emma watson",
+    "username": "@emmawatson",
+    "password": "125",
+    "image": "/images/formal-woman.jpeg",
+    "location": "New York, NY",
+    "joined": "January 2020",
+    "role": "frontend engineer",
+    "bio": "Tech enthusiast and writer sharing insights on software development and startups.",
+    "publishedArticles": [
+      {
+        "title": "building scalable apis with node.js & express",
+        "category": "node js",
+        "articleImage": "/images/nodejs.jpeg",
+        "createdAt":"2025-07-30T18:30:00Z",
+        "date": "jul 2025",
+        "summary": "discover patterns for middleware, routing, and error handling for enterprise-grade apps.",
+        "topic": "Scalability in API design with Node.js and Express comes from balancing clean architecture, efficient code, and infrastructure considerations. Start by following a modular structure—separating routes, controllers, services, and middleware—to keep the codebase maintainable as features grow. Use asynchronous, non-blocking patterns (Promises/async–await) to handle concurrent requests efficiently, and apply middleware for concerns like authentication, logging, and rate limiting. For data, implement pagination, caching (Redis), and database connection pooling to prevent bottlenecks. Security is equally critical—sanitize inputs, validate requests, and use HTTPS, JWTs, and environment-based configs. To scale horizontally, containerization (Docker), clustering, and load balancers distribute traffic effectively. Finally, make your APIs observable with monitoring tools (Prometheus, Grafana, ELK) and use versioning strategies to evolve features without breaking clients. With these practices, Node.js + Express APIs remain robust, performant, and ready for large-scale applications.",
+        "readTime": 0,
+        "views": 0,
+        "likes": 1,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "omar khaled",
+            "authorUserName": "@omarkhaled",
+            "commentDate": "2025-07-31T14:20:00Z",
+            "text": "Insightfull Post!"
+          }
+        ]
+      },
+      {
+        "title": "modern css: mastering grid and flexbox layouts",
+        "category": "css",
+        "articleImage": "/images/css.jpg",
+        "createdAt":"2025-07-30T18:30:00Z",
+        "date": "jul 2025",
+        "summary": "practical techniques to build responsive and adaptive designs with clean code.",
+        "topic": "CSS Grid and Flexbox are the backbone of modern, responsive web design—each solving layout challenges in complementary ways. Flexbox excels at one-dimensional layouts, making it ideal for aligning items in a row or column with features like flexible sizing, space distribution, and alignment controls (justify-content, align-items). Grid, on the other hand, is two-dimensional, allowing you to define both rows and columns for complex layouts with precision (grid-template-columns, grid-template-rows, grid-area). Together, they provide unmatched flexibility: Flexbox can handle components inside a Grid cell, while Grid defines the overall page structure. By mastering concepts like implicit vs. explicit tracks, auto-fit/auto-fill, fr units, and alignment, you can build designs that are both adaptive and scalable. Combined with media queries, container queries, and modern functions (minmax(), clamp()), these tools make it possible to create layouts that seamlessly adjust across devices while remaining clean and maintainable.",
+        "readTime": 0,
+        "views": 0,
+        "likes": 1,
+        "comments": [
+          {
+            "id": 1,
+            "authorName": "omar khaled",
+            "authorUserName": "@omarkhaled",
+            "commentDate": "2025-07-31T14:20:00Z",
+            "text": "Insightfull Post!"
+          }
+        ]
+      }
+    ],
+      "notifications" : [
+      {
+      "id": 1,
+      "type": "like",
+      "from": "@omarkhaled",
+      "postTitle": "building scalable apis with node.js & express",
+      "time": "2025-07-31T13:20:00Z",
+      "read": false
+    },
+    {
+      "id": 2,
+      "type": "like",
+      "from": "@omarkhaled",
+      "postTitle": "modern css: mastering grid and flexbox layouts",
+      "time": "2025-07-31T31:20:00Z",
+      "read": false
+    },
+    {
+      "id": 3,
+      "type": "comment",
+      "from": "@omarkhaled",
+      "postTitle": "building scalable apis with node.js & express",
+      "time": "2025-07-31T15:20:00Z",
+      "read": false
+    },
+    {
+      "id": 4,
+      "type": "comment",
+      "from": "@omarkhaled",
+      "postTitle": "modern css: mastering grid and flexbox layouts",
+      "time": "2025-07-31T15:20:00Z",
+      "read": false
+    }
+  ],
+    "followers": ["@omarkhaled"],
+    "following": ["@omarkhaled"],
+    "social": {
+      "twitter": "",
+      "linkedin": "",
+      "website": ""
+    }
+  }
+]

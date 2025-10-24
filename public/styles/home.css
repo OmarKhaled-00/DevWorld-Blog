@@ -67,10 +67,52 @@
 }
 
 .post-container .post-box {
+    position: relative;
     transform-style: preserve-3d;
     transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
     perspective: 1000px;
     overflow: hidden;
+}
+.post-container .post-box  .view {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-delay: 0.9s;
+    transition: 0.3s;
+}
+.post-container .post-box  .view::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: var(--gradient-primary);
+    left: 10px;
+    transition: 0.3s;
+}
+.post-container .post-box  .view::after {
+    content: "";
+    position: absolute;
+    width: 0px;
+    height: 3px;
+    background: var(--gradient-primary);
+    right: 10px;
+    transition: 0.3s;
+}
+.post-container .post-box  .view:hover a {
+     background: var(--gradient-primary);
+    color: #000000;
+}
+.post-container .post-box  .view:hover::before ,
+.post-container .post-box  .view:hover::after {
+    width: calc((100% - 92.15px) / 2);
+}
+.post-container .post-box  .view a {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 10px;
+    text-transform: capitalize;
 }
 .post-container .post-box:hover {
     animation: revolve3D 2s ease-in-out 1;
@@ -104,6 +146,7 @@
 .post-container .post-box .post-box-info .user-data .user-likes i {
     color: rgb(160, 26, 26);
 }
+
 
 /*Side bar*/
 .side-col .tags-card {
@@ -295,7 +338,7 @@
     .side-col {
     position: fixed;
     top: 20px;
-    right: -300px; /* hidden off screen */
+    right: -400px; /* hidden off screen */
     height: 100%;
     transition: right 0.3s ease-in-out;
     z-index: 3000;

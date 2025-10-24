@@ -1,23 +1,23 @@
+// ====================
+// server
+// ====================
 import express from "express";
 import bodyParser from "body-parser";
 import path from "path";
 import { fileURLToPath } from "url";
-import { name } from "ejs";
 import multer from "multer";
 import session from "express-session";
+import fs from "fs";
+import { collectHomeData } from "./utils/collectHomeData.js";
+// Import static UI configs
 import mainLogo from "./data/mainLogo.js";
 import headerButtons from "./data/headerButtons.js";
-import post from "./data/post.js";
-import authors from "./data/authors.js";
-import comments from "./data/comments.js";
 import tags from "./data/tags.js";
 import notifications from "./data/notifications.js";
-import {
-  userProfile,
-  userProfileButtons,
-  defaultUserProfile,
-} from "./data/userProfile.js";
-
+import { userProfileButtons } from "./data/userProfileButtons.js";
+// --------------------
+// Setup
+// --------------------
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -37,16 +37,36 @@ app.use(
   })
 );
 
+// --------------------
+// Load user data
+// --------------------
+const userProfilePath = "./data/userProfile.json";
+
+// Load JSON helper
+function loadJSON(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf-8"));
+}
+function saveJSON(filePath, data) {
+  fs.writeFileSync(filePath, JSON.stringify(data, null, 2), "utf-8");
+}
+let userProfile = loadJSON(userProfilePath);
+
+// Default guest
+const defaultUserProfile = {
+  name: "Guest User",
+  email: "guest@example.com",
+  username: "@guest",
+  image: "/images/no-image.jpg",
+};
+
 // Pass global data to all views
 app.use((req, res, next) => {
   res.locals.mainLogo = mainLogo;
   res.locals.headerButtons = headerButtons;
-  res.locals.post = post;
-  res.locals.authors = authors;
-  res.locals.comments = comments;
   res.locals.tags = tags;
-  res.locals.notifications = notifications;
   res.locals.userProfile = userProfile;
+  res.locals.userProfileButtons = userProfileButtons;
+  res.locals.notifications = notifications;
   res.locals.defaultUserProfile = defaultUserProfile;
   // res.locals.currentUser = req.session.user || defaultUserProfile;
   const user = req.session.user || defaultUserProfile;
@@ -56,7 +76,6 @@ app.use((req, res, next) => {
     ...user,
     image: user.image || defaultUserProfile.image,
   };
-  res.locals.userProfileButtons = userProfileButtons; // ✅ make available to EJS
   next();
 });
 
@@ -67,7 +86,7 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + path.extname(file.originalname)),
 });
 const upload = multer({ storage });
-
+//login
 app.post("/submit", (req, res) => {
   const { username, password } = req.body;
 
@@ -83,33 +102,43 @@ app.post("/submit", (req, res) => {
   }
 });
 
-// Upload endpoint
+// Upload endpoint → update JSON file too
 app.post("/upload", upload.single("profilePhoto"), (req, res) => {
   if (!req.file) return res.send("No file uploaded");
+
   const imagePath = "/uploads/" + req.file.filename;
-  //update session user
-  req.session.user.image = imagePath;
-  // update the actual user in userProfile array
-  const user = userProfile.find(
-    (u) => u.username === req.session.user.username
-  );
-  if (user) {
-    user.image = imagePath;
+
+  if (req.session.user) {
+    req.session.user.image = imagePath;
+
+    // update actual user in userProfile.json
+    const userIndex = userProfile.findIndex(
+      (u) => u.username === req.session.user.username
+    );
+    if (userIndex !== -1) {
+      userProfile[userIndex].image = imagePath;
+      saveJSON(userProfilePath, userProfile); // save back to file
+    }
   }
-  res.redirect("/profile"); // redirect without query
+
+  res.redirect("/profile");
 });
 
-app.get("/", (req, res) => {
-  res.render("index.ejs");
-});
-app.get("/create", (req, res) => {
-  res.render("partials/create.ejs");
-});
-app.get("/profile", (req, res) => {
-  res.render("partials/profile.ejs");
-});
+// Routes
+app.get("/", (req, res) => res.render("index.ejs"));
+app.get("/create", (req, res) => res.render("partials/create.ejs"));
+app.get("/profile", (req, res) => res.render("partials/profile.ejs"));
 app.get("/home", (req, res) => {
-  res.render("partials/home.ejs");
+  const loggedInUser = req.session.user || null;
+  const { allPosts, tagsList, recentComments, featuredAuthors, trendPost } =
+    collectHomeData(loggedInUser);
+  res.render("partials/home.ejs", {
+    posts: allPosts,
+    tags: tagsList,
+    comments: recentComments,
+    authors: featuredAuthors,
+    trendPost: trendPost,
+  });
 });
 
 app.listen(port, () => {

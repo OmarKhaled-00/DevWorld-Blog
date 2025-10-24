@@ -125,6 +125,7 @@ a {
 .text-lg { font-size: 16px; }
 .text-xl { font-size: 20px; }
 .text-cp {text-transform: capitalize;}
+.text-alignL {text-align: left;}
 .font-bold { font-weight: bold; }
 .font-light { font-weight: 300; }
 /*=====================================*/
@@ -176,6 +177,12 @@ a {
 }
 .gradientSecondary-text{
     background: var(--gradient-secondary);
+  -webkit-background-clip: text;  /* for Safari/Chrome */
+  background-clip: text;          /* standard */
+  color: transparent;             /* hide the original text color */
+}
+.gradientAccent-text{
+    background: var(--gradient-accent);
   -webkit-background-clip: text;  /* for Safari/Chrome */
   background-clip: text;          /* standard */
   color: transparent;             /* hide the original text color */
