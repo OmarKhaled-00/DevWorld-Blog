@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+/* Optional: directly define keyframes in CSS for Tailwind v4 */
+/* 1️⃣ Define shineGlow animation */
+@layer utilities {
+  @keyframes arrowMove {
+    0% {
+      transform: translateX(0px);
+    }
+    50% {
+      transform: translateX(20px);
+    }
+    100% {
+      transform: translateX(0px);
+    }
+  }
+  .animate-arrowMove:hover {
+    animation: arrowMove 1s linear infinite;
+  }
+  @keyframes revolve3D {
+    0% {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg)
+        translateZ(10px);
+    }
+    25% {
+      transform: perspective(1000px) rotateY(25deg) rotateX(5deg)
+        translateZ(20px);
+    }
+    50% {
+      transform: perspective(1000px) rotateY(5deg) rotateX(5deg)
+        translateZ(30px);
+    }
+    75% {
+      transform: perspective(1000px) rotateY(-25deg) rotateX(-5deg)
+        translateZ(20px);
+    }
+    100% {
+      transform: perspective(1000px) rotateY(0deg) rotateX(0deg)
+        translateZ(10px);
+    }
+  }
+
+  .animate-revolve3D:hover {
+    animation: revolve3D 2s ease-in-out 1;
+  }
+  @keyframes fill-title-left-move {
+    50% {
+      left: 0;
+      width: 12px;
+      height: 12px;
+    }
+
+    100% {
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+  }
+
+  @keyframes fill-title-right-move {
+    50% {
+      right: 0;
+      width: 12px;
+      height: 12px;
+    }
+
+    100% {
+      right: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+    }
+  }
+
+  .animate-fill-title-left:hover::before {
+    animation: fill-title-left-move 0.4s linear forwards;
+  }
+
+  .animate-fill-title-right:hover::after {
+    animation: fill-title-right-move 0.4s linear forwards;
+  }
+  @keyframes shineGlow {
+    0%,
+    100% {
+      box-shadow: 0 0 5px #00ffff;
+    }
+    50% {
+      box-shadow:
+        0 0 20px #00ffff,
+        0 0 30px #00ffff;
+    }
+  }
+  @keyframes opacityControl {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .before-animate-opacity::before {
+    animation: opacityControl 2s ease-in infinite;
+  }
+
+  /* 2️⃣ Utility for pseudo-element glowing */
+  .before-glow::before {
+    content: "3";
+    position: absolute;
+    top: -10px; /* adjust as needed */
+    right: -10px; /* adjust as needed */
+    border-radius: 50%;
+    background: linear-gradient(to right, #3b82f6, #06b6d4);
+    animation: shineGlow 1.8s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Enhanced High-Contrast Colors */
+  --color-background: #000000; /* true black */
+  --color-foreground: #ffffff; /* pure white */
+  --color-border: rgba(6, 182, 212, 0.3); /* bright cyan border */
+  --color-input: #0f172a; /* dark navy */
+  --color-ring: #06b6d4; /* bright cyan */
+  --color-subHead: #94a3b8;
+  --color-cyan: rgb(15 116 143 / 70%);
+
+  /* Card Colors */
+  --color-card: #0f172a; /* dark navy */
+
+  --color-card-foreground: #ffffff; /* pure white */
+
+  /* Popover Colors */
+  --color-popover: #000000; /* true black */
+  --color-popover-foreground: #ffffff; /* pure white */
+
+  /* Muted Colors */
+  --color-muted: #0f172a; /* dark navy */
+  --color-muted-foreground: #e5e7eb; /* light gray instead of mint */
+
+  /* Primary Colors - Electric Blue to Cyan */
+  --color-primary: #3b82f6; /* electric blue */
+  --color-primary-foreground: #ffffff; /* pure white */
+
+  /* Secondary Colors - Purple to Magenta */
+  --color-secondary: #8b5cf6; /* vibrant purple */
+  --color-secondary-foreground: #ffffff; /* pure white */
+
+  /* Accent Colors - Bright Yellow */
+  --color-accent: #fbbf24; /* bright yellow */
+  --color-accent-foreground: #000000; /* true black */
+
+  /* Success Colors */
+  --color-success: #10b981; /* fresh green */
+  --color-success-foreground: #ffffff; /* pure white */
+
+  /* Warning Colors */
+  --color-warning: #fbbf24; /* bright yellow */
+  --color-warning-foreground: #000000; /* true black */
+
+  /* Error Colors */
+  --color-error: #ef4444; /* clear red */
+  --color-error-foreground: #ffffff; /* pure white */
+
+  /* Destructive Colors */
+  --color-destructive: #ef4444; /* clear red */
+  --color-destructive-foreground: #ffffff; /* pure white */
+
+  /* Surface Color */
+  --color-surface: #0f172a; /* dark navy */
+
+  /* Text Colors - Enhanced Contrast */
+  --color-text-primary: #ffffff; /* pure white */
+  --color-text-secondary: #e5e7eb; /* light gray */
+  --color-text-interactive: #00ffff; /* bright cyan */
+
+  /* Gradient Colors */
+  --gradient-primary: linear-gradient(
+    135deg,
+    #3b82f6 0%,
+    #06b6d4 100%
+  ); /* electric blue to cyan */
+  --gradient-secondary: linear-gradient(
+    135deg,
+    #8b5cf6 0%,
+    #ec4899 100%
+  ); /* purple to magenta */
+  --gradient-accent: linear-gradient(
+    135deg,
+    #fbbf24 0%,
+    #f59e0b 100%
+  ); /* bright yellow gradient */
+  --gradient-title: linear-gradient(
+    to right,
+    #16a085,
+    #0ea5e9
+  ); /*Light green to light cyan*/
+  --gradient-body: linear-gradient(
+    to right,
+    #000000,
+    #151f38
+  ); /*Pure black to dark navy*/
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: "Source Serif 4", serif;
+  background: var(--gradient-body);
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  animation: moveGradient 2s ease-in-out infinite alternate;
+  height: 100dvh;
+  color: var(--color-foreground);
+  overflow-x: hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* track (background) */
+::-webkit-scrollbar-track {
+  background: #0f172a; /* slate-900 */
+}
+
+/* thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background: #0ea5e9; /* indigo-500 */
+  border-radius: 8px;
+}
+
+/* thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0ea5e9; /* indigo-400 */
+}
+
+@keyframes moveGradient {
+  0% {
+    background-position: left center;
+  }
+  100% {
+    background-position: right center;
+  }
+}
