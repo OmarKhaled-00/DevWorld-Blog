@@ -45,6 +45,8 @@ import {
   faFilePdf,
   faFilePowerpoint,
   faFileWord,
+  faXmark,
+  faAngleDown,
 } from "@fortawesome/free-solid-svg-icons";
 import { faSearchengin } from "@fortawesome/free-brands-svg-icons";
 export const ICONS = {
@@ -65,6 +67,7 @@ export const ICONS = {
   logOut: faArrowRightFromBracket,
   leftArrow: faChevronLeft,
   rightArrow: faChevronRight,
+  downArrow: faAngleDown,
   bookMark: faBookmark,
   share: faShareNodes,
   trend: faArrowTrendUp,
@@ -95,4 +98,5 @@ export const ICONS = {
   pdf: faFilePdf,
   powerpoint: faFilePowerpoint,
   word: faFileWord,
+  close: faXmark,
 };

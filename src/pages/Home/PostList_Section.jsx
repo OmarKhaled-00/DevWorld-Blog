@@ -2,122 +2,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ICONS } from "../../Constants/Icons/Icons";
 import { GetPosts } from "../../services/postApi.services";
 import { timeAgo } from "../../utils/timeAgo";
-import { CreateLikes, CreateTrend } from "../../services/postApi.services";
-import { useAuth } from "../../hooks/useAuth";
 import { formatNumber } from "../../utils/formatNumber";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-
-const getDocTypeFromMime = (mime) => {
-  if (!mime) return "document";
-  if (mime.includes("pdf")) return "pdf";
-  if (mime.includes("word")) return "word";
-  if (mime.includes("presentation")) return "powerpoint";
-  return "document";
-};
+import { useQuery } from "@tanstack/react-query";
+import { usePostActions } from "../../hooks/usePostActions";
+import { truncateText } from "../../utils/truncateText";
+import { Loader } from "@react-three/drei";
+import { getDocTypeFromMime } from "../../utils/getDocTypeFromMime";
+import post from "../Post/Post";
+import { useNavigate } from "react-router-dom";
 function PostList_Section() {
-  const { user } = useAuth();
-  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const {
+    likePost,
+    likePending,
+    trendPost,
+    trendPending,
+    repostPost,
+    repostPending,
+    savePost,
+    savePending,
+  } = usePostActions();
 
   // ✅ Fetch posts
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["posts"],
     queryFn: GetPosts,
     refetchInterval: 30000,
+    staleTime: 1000 * 60 * 2,
+    refetchOnWindowFocus: false,
   });
 
   const posts = data?.posts || [];
 
-  // ✅ Like Mutation
-  const likeMutation = useMutation({
-    mutationFn: ({ postId }) => CreateLikes(postId, user.id),
+  const handleLikes = (postId) => likePost(postId);
+  const handleTrends = (postId) => trendPost(postId);
+  const handleRepost = (postId) => repostPost(postId);
+  const handleSave = (postId) => savePost(postId);
 
-    // 🔥 Optimistic Update
-    onMutate: async ({ postId }) => {
-      await queryClient.cancelQueries({ queryKey: ["posts"] });
-
-      const previousData = queryClient.getQueryData(["posts"]);
-
-      queryClient.setQueryData(["posts"], (oldData) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          posts: oldData.posts.map((p) =>
-            p.id === postId
-              ? {
-                  ...p,
-                  likes_count: p.liked_by_user
-                    ? Number(p.likes_count) - 1
-                    : Number(p.likes_count) + 1,
-                  liked_by_user: !p.liked_by_user,
-                }
-              : p,
-          ),
-        };
-      });
-
-      return { previousData };
-    },
-
-    onError: (err, variables, context) => {
-      // rollback if error
-      queryClient.setQueryData(["posts"], context.previousData);
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-    },
-  });
-
-  // ✅ Trend Mutation
-  const trendMutation = useMutation({
-    mutationFn: ({ postId }) => CreateTrend(postId, user.id),
-
-    onMutate: async ({ postId }) => {
-      await queryClient.cancelQueries({ queryKey: ["posts"] });
-
-      const previousData = queryClient.getQueryData(["posts"]);
-
-      queryClient.setQueryData(["posts"], (oldData) => {
-        if (!oldData) return oldData;
-
-        return {
-          ...oldData,
-          posts: oldData.posts.map((p) =>
-            p.id === postId
-              ? {
-                  ...p,
-                  trend_count: !p.trended_by_user
-                    ? Number(p.trend_count) + 1
-                    : Number(p.trend_count) - 1,
-                  trended_by_user: !p.trended_by_user,
-                }
-              : p,
-          ),
-        };
-      });
-
-      return { previousData };
-    },
-
-    onError: (err, variables, context) => {
-      queryClient.setQueryData(["posts"], context.previousData);
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
-    },
-  });
-
-  const handleLikes = (postId) => {
-    likeMutation.mutate({ postId });
-  };
-
-  const handleTrends = (postId) => {
-    trendMutation.mutate({ postId });
-  };
-
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   if (isError) return <p>{error.message}</p>;
 
   return (
@@ -134,9 +56,6 @@ function PostList_Section() {
         // Determine doc type
         const docType = getDocTypeFromMime(mimeType);
 
-        console.log("mimeType:", mimeType); // "application/pdf"
-        console.log("docType:", docType); // "pdf"
-
         const mediaType = video
           ? "video"
           : application
@@ -150,6 +69,7 @@ function PostList_Section() {
             key={index}
           >
             <article
+              onClick={() => navigate("/posts", { state: { postId: post.id } })}
               className={`animate-revolve3D group/card transform-style:3d flex h-full w-full cursor-pointer flex-col gap-0 overflow-hidden rounded-[20px] border-2 border-[rgba(6,182,212,0.3)] bg-(--color-input) shadow-[0_4px_8px_rgba(0,0,0,0.5),0_6px_20px_rgba(0,0,0,0.19)] transition-all duration-600 ease-[cubic-bezier(0.23,1,0.32,1)] perspective-[1000px]`}
             >
               {(() => {
@@ -219,6 +139,7 @@ function PostList_Section() {
                             >
                               <img
                                 src={image.url}
+                                loading="lazy"
                                 className={`w-full object-cover ${
                                   post.post_media.length === 1
                                     ? "max-h-65"
@@ -242,27 +163,45 @@ function PostList_Section() {
                 className={` ${isDocument ? "h-fit items-end" : "absolute top-0 h-fit overflow-hidden "} flex w-full justify-between rounded-t-[20px] p-3 transition-all duration-300`}
               >
                 <span
-                  className={` ${post.post_tag?.tagname ? "animate__animated animate__fadeInUp group-hover/card:block " : "opacity-0"} m-3 hidden h-fit rounded-[15px] bg-linear-to-r from-[#16a085] to-[#0ea5e9] p-1 text-[13px] capitalize max-md:p-1.5`}
+                  className={` ${post.post_tag[0]?.tagname ? "animate__animated animate__fadeInUp group-hover/card:block " : "opacity-0"} m-3 hidden h-fit rounded-[15px] bg-linear-to-r from-[#16a085] to-[#0ea5e9] p-1 text-[13px] capitalize max-md:p-1.5`}
                 >
-                  {post.post_tag?.tagname}
+                  {post.post_tag[0]?.tagname}
                 </span>
                 <div>
                   <nav
                     className={` ${isDocument ? "h-fit group-hover/card:flex group-hover/card:flex-row" : "group-hover/card:flex group-hover/card:flex-col"} animate__animated animate__fadeInUp hidden items-center justify-between gap-2 *:cursor-pointer *:rounded-[50%] *:border-2 *:border-solid *:border-(--color-ring) *:bg-(--color-input) *:p-1 *:text-white *:hover:bg-(--color-text-interactive) *:hover:text-black`}
                   >
-                    <button>
-                      <FontAwesomeIcon icon={ICONS.bookMark} />
+                    <button
+                      disabled={savePending}
+                      onClick={() => handleSave(post.id)}
+                    >
+                      <FontAwesomeIcon
+                        className={`${post.saved_by_user ? "text-yellow-300" : ""}`}
+                        icon={ICONS.bookMark}
+                      />
                     </button>
-                    <button>
-                      <FontAwesomeIcon icon={ICONS.share} />
+                    <button
+                      disabled={repostPending}
+                      onClick={() => handleRepost(post.id)}
+                    >
+                      <FontAwesomeIcon
+                        className={`${post.reposted_by_user ? "text-red-500" : ""}`}
+                        icon={ICONS.share}
+                      />
                     </button>
-                    <button onClick={() => handleLikes(post.id)}>
+                    <button
+                      disabled={likePending}
+                      onClick={() => handleLikes(post.id)}
+                    >
                       <FontAwesomeIcon
                         className={`${post.liked_by_user ? "text-blue-600" : ""}`}
                         icon={ICONS.like}
                       />
                     </button>
-                    <button onClick={() => handleTrends(post.id)}>
+                    <button
+                      disabled={trendPending}
+                      onClick={() => handleTrends(post.id)}
+                    >
                       <FontAwesomeIcon
                         className={`${post.trended_by_user ? "text-green-400" : ""}`}
                         icon={ICONS.trend}
@@ -281,7 +220,7 @@ function PostList_Section() {
                   <p
                     className={`${post.title ? "text-[12px] text-gray-300 " : "text-[16px] text-white "} capitalize`}
                   >
-                    {post.content_text}
+                    {truncateText(post.content_text)}
                   </p>
                 </header>
                 <footer className="flex items-center justify-between">
@@ -323,11 +262,20 @@ function PostList_Section() {
                     </div>
                     <div className="flex items-center justify-between gap-1">
                       <FontAwesomeIcon
+                        className="text-blue-600"
+                        icon={ICONS.repost}
+                      />
+                      <span className="text-[14px]">
+                        {formatNumber(post.repost_count)}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between gap-1">
+                      <FontAwesomeIcon
                         className="text-green-600"
                         icon={ICONS.trend}
                       />
                       <span className="text-[14px]">
-                        {post.trend_score.toFixed(2)}%
+                        {Number(post.trend_score || 0).toFixed(2)}%
                       </span>
                     </div>
                   </div>

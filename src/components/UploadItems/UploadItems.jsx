@@ -2,15 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ICONS } from "../../Constants/Icons/Icons.js";
 import { uploadStore } from "../../store/uploadStore.js";
 import { validateFiles } from "../../utils/fileValidation.js";
-
+import { getDocTypeFromMime } from "../../utils/getDocTypeFromMime.js";
 // Helper to get document type for icon
-const getDocTypeFromMime = (mime) => {
-  if (!mime) return "document";
-  if (mime.includes("pdf")) return "pdf";
-  if (mime.includes("word")) return "word";
-  if (mime.includes("presentation")) return "powerpoint";
-  return "document";
-};
 
 function UploadItems() {
   const files = uploadStore((state) => state.files);

@@ -1,52 +1,38 @@
-import { EditorContent } from "@tiptap/react";
-import { useLocation } from "react-router-dom";
-import { useRichEditor } from "../../hooks/useRichEditor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ICONS } from "../../Constants/Icons/Icons";
+import { useEditor, EditorContent } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { TextAlign } from "@tiptap/extension-text-align";
+import { Color } from "@tiptap/extension-color";
+import PostHeader from "./PostHeader";
+import { useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import setState from "../../utils/setState";
-import { CreateLikes } from "../../services/postApi.services";
-import { FetchPost } from "../../services/postApi.services";
-import { useAuth } from "../../hooks/useAuth";
-import PostHeader from "./PostHeader";
+import { GetPosts } from "../../services/postApi.services";
 export default function Post() {
-  const { user } = useAuth();
-
+  const location = useLocation();
+  const postId = location.state.postId;
   const [showMore, setShowMore] = useState(false);
-  const [isComment, setIsComment] = useState(false);
-  const [replyTo, setReplyTo] = useState(null);
-  const [isReposted, setIsReposted] = useState(false);
-  const [isTrended, setIsTrended] = useState(false);
-  const [isReplayLiked, setIsReplayLiked] = useState(false);
-  const [userWhoLikes, setUserWhoLikes] = useState(null);
-
-  const [totalLikes, setTotalLikes] = useState(0);
-  const { state } = useLocation();
-
-  const { editor } = useRichEditor({
-    initialContent: state?.content_json,
-    autoFocus: false,
-    editable: false,
+  const { data: post } = useQuery({
+    queryKey: ["posts"],
+    queryFn: GetPosts, // ✅ required
+    select: (data) => data.posts.find((p) => p.id === postId),
   });
 
-  // if (!state?.content_json) {
-  //   return <p>No content to preview</p>;
-  // }
-
-  console.log(user.id);
-
-  async function handleLikes() {
-    const result = await FetchPost(user.id, state.content_text);
-    const response = await CreateLikes(result.post_id[0].id, user.id);
-    setTotalLikes(response.post_status.total_likes);
-    setUserWhoLikes(
-      response.post_status.users_id === null
-        ? 0
-        : Array.isArray(response.post_status.users_id)
-          ? response.post_status.users_id[0]
-          : response.post_status.users_id,
-    );
-  }
+  if (!post) return <p>Post not found</p>;
+  console.log(post);
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      TextStyle,
+      Color,
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+    ],
+    content: post?.content_json || "", // fallback
+    editable: false,
+  });
 
   function goBack() {
     window.history.back();
@@ -66,17 +52,16 @@ export default function Post() {
       </nav>
 
       {/* Post container */}
-
       <article className="relative container m-auto mt-2 flex h-fit max-w-[50%] flex-col rounded-md border-2 border-solid border-(--color-border) bg-linear-to-t from-[#000000] to-[#151f38]">
-        {/* Post header */}
         <article className="p-2">
-          <PostHeader />
+          <PostHeader posts={post} />
 
           {/* Post content */}
           <section className="mt-6 mb-6 flex flex-col">
             <p className="mb-5 text-center text-4xl uppercase underline">
-              {state?.title}
+              {post.title}
             </p>
+
             <EditorContent
               editor={editor}
               className={`prose prose-invert max-w-none ${
@@ -85,6 +70,7 @@ export default function Post() {
                   : "[&_.ProseMirror]:h-70 [&_.ProseMirror]:overflow-y-auto"
               } [&_.ProseMirror]:wrap-break-word [&_.ProseMirror]:whitespace-pre-wrap [&_h1]:text-3xl [&_h2]:text-2xl [&_h3]:text-xl [&_ol]:ml-6 [&_ol]:list-decimal [&_ul]:ml-6 [&_ul]:list-disc`}
             />
+
             <button
               className={`cursor-pointer ${
                 showMore
@@ -98,11 +84,20 @@ export default function Post() {
           </section>
 
           <div className="m-2 flex flex-wrap gap-2">
-            {state?.tags.map((tag, index) => (
-              <p className="text-blue-300 capitalize" key={index}>
-                #{tag}
-              </p>
-            ))}
+            {Array.isArray(post.post_tag)
+              ? post.post_tag.map((t) => (
+                  <span
+                    key={t.id}
+                    className="rounded bg-blue-600 px-2 py-1 text-white"
+                  >
+                    {t.tagname}
+                  </span>
+                ))
+              : post.post_tag?.tagname && (
+                  <span className="rounded bg-blue-600 px-2 py-1 text-white">
+                    {post.post_tag.tagname}
+                  </span>
+                )}
           </div>
 
           {/* Subscription image */}
@@ -118,14 +113,12 @@ export default function Post() {
 
           {/* Engagement stats */}
           <footer className="my-2 flex justify-between">
-            <div className={`flex items-center gap-1`}>
-              <div className={`${totalLikes > 0 ? "block " : "hidden"}`}>
-                <FontAwesomeIcon
-                  icon={ICONS.like}
-                  className="text-[18px] text-blue-600"
-                />
-              </div>
-              <span>{totalLikes > 0 ? totalLikes : ""}</span>
+            <div className="flex items-center gap-1">
+              <FontAwesomeIcon
+                icon={ICONS.like}
+                className="text-[18px] text-blue-600"
+              />
+              <span>12</span>
             </div>
 
             <div className="flex items-center gap-2">
@@ -139,44 +132,24 @@ export default function Post() {
           </footer>
 
           {/* Actions */}
-          <section className="flex items-center justify-between border-t-2 border-t-(--color-border) p-3 *:flex *:transform *:cursor-pointer *:flex-col *:items-center *:gap-0.5 *:capitalize *:transition-all *:duration-200 *:ease-in-out">
-            <button
-              onClick={() => {
-                handleLikes();
-              }}
-              className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-solid hover:border-blue-600"
-            >
+          <section className="flex items-center justify-between border-t-2 border-t-(--color-border) p-3 *:flex *:cursor-pointer *:flex-col *:items-center *:gap-0.5 *:capitalize">
+            <button className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-blue-600">
               <FontAwesomeIcon
                 icon={ICONS.like}
-                className={`${user?.id == userWhoLikes ? "rounded-[50%] bg-blue-600 p-1 text-white/70" : "border-none bg-none "} text-[18px] text-blue-600`}
+                className="text-[18px] text-blue-600"
               />
-              <p
-                className={`${user?.id == userWhoLikes ? "text-blue-500" : "text-white"}`}
-              >
-                like
-              </p>
+              <p>like</p>
             </button>
 
-            <button
-              onClick={() => {
-                setState(setIsComment, !isComment);
-                setState(setReplyTo, null);
-              }}
-              className={` ${
-                isComment ? "rounded-[10px] bg-teal-600 text-white" : ""
-              } border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-solid hover:border-teal-600`}
-            >
+            <button className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-teal-600">
               <FontAwesomeIcon
                 icon={ICONS.comment}
-                className={`text-[18px] ${isComment ? "text-white" : "text-teal-600"}`}
+                className="text-[18px] text-teal-600"
               />
               <p>comment</p>
             </button>
 
-            <button
-              onClick={() => setState(setIsReposted, !isReposted)}
-              className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-solid hover:border-cyan-800"
-            >
+            <button className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-cyan-800">
               <FontAwesomeIcon
                 icon={ICONS.repost}
                 className="text-[18px] text-cyan-800"
@@ -184,19 +157,12 @@ export default function Post() {
               <p>repost</p>
             </button>
 
-            <button
-              onClick={() => setState(setIsTrended, !isTrended)}
-              className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-solid hover:border-(--color-success)"
-            >
+            <button className="border-none p-1 hover:rounded-[10px] hover:border-2 hover:border-(--color-success)">
               <FontAwesomeIcon
                 icon={ICONS.trend}
-                className={`${isTrended ? "rounded-[50%] bg-(--color-success) p-1 text-white/70" : "bg-none text-(--color-success)"} text-[18px]`}
+                className="text-[18px] text-(--color-success)"
               />
-              <p
-                className={`${isTrended ? " text-(--color-success)" : "text-white/70"} text-[18px]`}
-              >
-                trend
-              </p>
+              <p>trend</p>
             </button>
           </section>
 
@@ -204,19 +170,16 @@ export default function Post() {
           <section className="relative flex flex-col p-1">
             <h4 className="mb-2 p-2 capitalize">comments</h4>
 
+            {/* Main Comment */}
             <article className="relative flex">
-              <span className="absolute top-2 left-4 h-[calc(100%+1.8rem)] w-10 border-b-2 border-l-2 border-solid border-white/65"></span>
+              <span className="absolute top-2 left-4 h-[calc(100%+1.8rem)] w-10 border-b-2 border-l-2 border-white/65"></span>
 
               <div className="flex flex-col">
                 <header className="mb-6 flex items-center justify-between gap-2">
                   <div className="flex gap-2">
-                    <img
-                      src="./circle.png"
-                      alt="Comment author"
-                      className="h-8 w-8"
-                    />
-                    <div className="*:capitalize">
-                      <p>ahmed hamdy</p>
+                    <img src="./circle.png" className="h-8 w-8" />
+                    <div>
+                      <p className="capitalize">ahmed hamdy</p>
                       <p className="text-[12px] text-white/70">
                         full stack web developer
                       </p>
@@ -226,40 +189,24 @@ export default function Post() {
                 </header>
 
                 <div className="ml-10 flex flex-col gap-2">
-                  <p>
-                    This is sample comment This is sample comment This is sample
-                    comment This is sample comment This is sample comment This
-                    is sample comment This is sample comment This is sample
-                    comment This is sample comment This is sample comment This
-                    is sample comment This is sample comment This is sample
-                    comment This is sample comment This is sample comment This
-                    is sample comment This is sample comment This is sample
-                    comment This is sample comment This is sample comment
-                  </p>
+                  <p>This is sample comment content for UI preview only.</p>
 
-                  <div className="ml-10 flex w-fit items-center gap-2 *:text-[12px] *:capitalize">
-                    <button
-                      onClick={() => setState(setIsReplayLiked, !isReplayLiked)}
-                      className="cursor-pointer rounded-[10px] border-2 border-solid border-blue-700 p-1 hover:bg-blue-800"
-                    >
+                  <div className="ml-10 flex w-fit items-center gap-2 text-[12px]">
+                    <button className="cursor-pointer rounded-[10px] border-2 border-blue-700 p-1 hover:bg-blue-800">
                       like
                     </button>
+
                     <div className="flex items-center gap-1">
                       <FontAwesomeIcon
                         icon={ICONS.like}
-                        className={`ml-1 text-[14px] text-blue-600`}
+                        className="text-[14px] text-blue-600"
                       />
                       <span>2</span>
                     </div>
 
-                    <span className="mx-2 h-8 w-1 rounded-[10px] border-2 border-solid bg-white"></span>
-                    <button
-                      onClick={() => {
-                        setState(setReplyTo, "ahmed Hamdy"); //later use id and fetch username
-                        setState(setIsComment, false);
-                      }}
-                      className={`cursor-pointer rounded-[10px] border-2 border-solid border-violet-700 p-1 hover:bg-violet-700 ${replyTo !== null ? "rounded-[10px] bg-violet-700 text-white" : ""}`}
-                    >
+                    <span className="mx-2 h-8 w-1 border-2 bg-white"></span>
+
+                    <button className="cursor-pointer rounded-[10px] border-2 border-violet-700 p-1 hover:bg-violet-700">
                       reply
                     </button>
                   </div>
@@ -267,19 +214,13 @@ export default function Post() {
               </div>
             </article>
 
+            {/* Reply Comment */}
             <div className="relative mt-4 ml-14 flex gap-2">
-              {/* vertical line */}
-              {/* <span className="absolute top-0 -left-6 h-full w-4 border-b-2 border-l border-solid border-white/65" /> */}
-
               <div className="flex flex-col gap-1 rounded-md border-2 border-solid border-(--color-border) p-2">
                 <header className="flex items-center justify-between gap-2 text-sm">
                   <div className="flex gap-1">
-                    <img
-                      src="./circle.png"
-                      alt="Reply author"
-                      className="h-7 w-7 rounded-full"
-                    />
-                    <div className="flex flex-col gap-0.5 *:capitalize">
+                    <img src="./circle.png" className="h-7 w-7 rounded-full" />
+                    <div className="flex flex-col gap-0.5">
                       <p className="capitalize">omar khaled</p>
                       <p className="text-[12px] text-white/70">
                         Full Stack Web Developer
@@ -289,39 +230,26 @@ export default function Post() {
                   <time className="text-xs text-white/60">now</time>
                 </header>
 
-                <p className="h-fit text-sm">
-                  This is a reply content (UI only for now) This is a reply
-                  content (UI only for now) This is a reply content (UI only for
-                  now) This is a reply content (UI only for now) This is a reply
-                  content (UI only for now) This is a reply content (UI only for
-                  now) This is a reply content (UI only for now) This is a reply
-                  content (UI only for now) This is a reply content (UI only for
-                  now) This is a reply content (UI only for now) This is a reply
-                  content (UI only for now)
+                <p className="text-sm">
+                  This is a reply content (UI only for now).
                 </p>
-                <div className="ml-10 flex w-fit items-center gap-2 *:text-[12px] *:capitalize">
-                  <button
-                    onClick={() => setState(setIsReplayLiked, !isReplayLiked)}
-                    className="cursor-pointer rounded-[10px] border-2 border-solid border-blue-700 p-1 hover:bg-blue-800"
-                  >
+
+                <div className="ml-10 flex w-fit items-center gap-2 text-[12px]">
+                  <button className="cursor-pointer rounded-[10px] border-2 border-blue-700 p-1 hover:bg-blue-800">
                     like
                   </button>
+
                   <div className="flex items-center gap-1">
                     <FontAwesomeIcon
                       icon={ICONS.like}
-                      className={`ml-1 text-[14px] text-blue-600`}
+                      className="text-[14px] text-blue-600"
                     />
                     <span>2</span>
                   </div>
 
-                  <span className="mx-2 h-8 w-1 rounded-[10px] border-2 border-solid bg-white"></span>
-                  <button
-                    onClick={() => {
-                      setState(setReplyTo, "ahmed Hamdy"); //later use id and fetch username
-                      setState(setIsComment, false);
-                    }}
-                    className={`cursor-pointer rounded-[10px] border-2 border-solid border-violet-700 p-1 hover:bg-violet-700 ${replyTo !== null ? "rounded-[10px] bg-violet-700 text-white" : ""}`}
-                  >
+                  <span className="mx-2 h-8 w-1 border-2 bg-white"></span>
+
+                  <button className="cursor-pointer rounded-[10px] border-2 border-violet-700 p-1 hover:bg-violet-700">
                     reply
                   </button>
                 </div>
@@ -329,26 +257,25 @@ export default function Post() {
             </div>
           </section>
         </article>
-        <section
-          className={` ${isComment || replyTo !== null ? "flex" : "hidden"} sticky bottom-0 flex w-full items-center gap-2 bg-linear-to-r from-[#000000] to-[#151f38] p-3`}
-        >
+
+        {/* Comment input */}
+        <section className="sticky bottom-0 flex w-full items-center gap-2 bg-linear-to-r from-[#000000] to-[#151f38] p-3">
           <aside>
-            <a href="/profile" className="cursor-pointer">
-              <img
-                src="./subscribe.jpg"
-                alt="Subscribe banner"
-                className="h-10 w-10 rounded-full object-cover"
-              />
-            </a>
-          </aside>
-          <form className="relative flex flex-1 items-center gap-2" action="">
-            <input
-              className="sticky top-0 left-0 flex-1 rounded-[20px] border-2 border-solid border-(--color-border) p-2"
-              type="text"
-              placeholder={`${replyTo !== null ? "@Ahmed Hamdy" : "Write a comment..."}`}
+            <img
+              src="./subscribe.jpg"
+              className="h-10 w-10 rounded-full object-cover"
             />
+          </aside>
+
+          <form className="flex flex-1 items-center gap-2">
+            <input
+              className="flex-1 rounded-[20px] border-2 border-(--color-border) p-2"
+              type="text"
+              placeholder="Write a comment..."
+            />
+
             <button className="cursor-pointer hover:text-(--color-success)">
-              {replyTo !== null ? "Reply" : "Comment"}
+              Comment
             </button>
           </form>
         </section>

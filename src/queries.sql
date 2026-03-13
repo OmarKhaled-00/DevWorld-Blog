@@ -40,6 +40,16 @@ CREATE TABLE posts_repost(
 
 );
 
+CREATE TABLE posts_saved(
+	
+	id BIGSERIAL PRIMARY KEY,
+	post_id BIGINT REFERENCES posts(id) ON DELETE CASCADE,
+	user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+	created_at TIMESTAMP DEFAULT now(),
+	UNIQUE(post_id,user_id)
+
+);
+
 
 CREATE TABLE posts_trend (
 
@@ -151,6 +161,12 @@ ON posts_likes(post_id);
 CREATE UNIQUE INDEX posts_repost_post_user
 ON posts_repost(post_id, user_id);
 CREATE INDEX posts_repost_post
+ON posts_repost(post_id);
+
+-- SAVED
+CREATE UNIQUE INDEX posts_saved_post_user
+ON posts_repost(post_id, user_id);
+CREATE INDEX posts_saved_post
 ON posts_repost(post_id);
 
 -- TREND clicks
